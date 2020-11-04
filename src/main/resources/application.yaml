@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost/userServer
+  mail:
+    host: smtp.qq.com
+    username: zhengzhong2020@qq.com
+    password: ungkvpfzmjiabdbg
+
+#配置应用的上下文路径
+server:
+  servlet:
+    context-path: /AuthServer
