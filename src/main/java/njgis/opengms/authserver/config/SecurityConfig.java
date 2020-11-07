@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -40,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/js/**","/css/**","/images/**","/element-ui/**","/img/**");
     }
-
+    @Autowired
+    CorsConfigurationSource corsConfigurationSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(loginIpFilter, UsernamePasswordAuthenticationFilter.class);
@@ -52,6 +54,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").loginProcessingUrl("/in").failureUrl("/login?error=true")
                 .usernameParameter("account").passwordParameter("password")
+                .and()
+                .cors()
+                .configurationSource(corsConfigurationSource)
                 .and()
                 .csrf().disable();
         http.httpBasic().disable();
